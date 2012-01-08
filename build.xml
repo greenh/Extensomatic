@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Extensomatic" basedir="." default="install">
+	
+	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
+	<property name="pom" value="pom.xml"/>
+	
+	<property name="version" value="0.1.0" />
+
+	<property name="src.dir" value="src" />
+	<property name="classes.dir" value="classes" />
+	<property name="dest.dir" value="bin" />
+
+    <property name="extensomatic.jar" value="extensomatic-${version}.jar" />
+
+	<target name="extensomatic-jar" >
+		<jar destfile="${dest.dir}/${extensomatic.jar}" index="true">
+			<fileset dir="${classes.dir}" includes="extensomatic/**" />
+		</jar>
+	</target>
+
+	<target name="install" depends="extensomatic-jar">
+		<exec executable="${maven}">
+			<arg value="install:install-file"/>
+			<arg value="-Dfile=${dest.dir}/${cjd.jar}"/>
+			<arg value="-DpomFile=${pom}"/>
+		</exec>
+	
+	</target>
+	
+</project>
+
+			

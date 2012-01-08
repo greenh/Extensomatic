@@ -18,6 +18,8 @@
       are in all respects fully compatible with those defined with 
       @(link clojure.core/defprotocol) and @(link clojure.core/defrecord).
       )
-(defproject Extensomatic "0.0.1-SNAPSHOT"
-  :description "FIXME: write description"
-  :dependencies [[org.clojure/clojure "1.3.0"]])
+(defproject extensomatic "0.1.0"
+  :description "Extensomatic"
+  :url "https://github.com/greenh/Extensomatic"
+  :target-dir "bin"
+  :dependencies [])
