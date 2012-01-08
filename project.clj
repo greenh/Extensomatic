@@ -22,4 +22,6 @@
   :description "Extensomatic"
   :url "https://github.com/greenh/Extensomatic"
   :target-dir "bin"
-  :dependencies [])
+  :dependencies [[org.clojure/clojure "1.3.0"]]
+  :exclusions [org.clojure/clojure cjd/cjd]
+  :dev-dependencies [[cjd "0.0.2-SNAPSHOT"]])
