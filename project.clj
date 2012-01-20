@@ -18,7 +18,7 @@
       are in all respects fully compatible with those defined with 
       @(link clojure.core/defprotocol) and @(link clojure.core/defrecord).
       )
-(defproject extensomatic "0.1.0"
+(defproject extensomatic "0.1.2-SNAPSHOT"
   :description "Extensomatic"
   :url "https://github.com/greenh/Extensomatic"
   :target-dir "bin"

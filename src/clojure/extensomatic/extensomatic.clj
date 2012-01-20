@@ -97,11 +97,11 @@
       one of the defintition macros is invoked.
       @p Use @(l extenso-debug) to turn debugging output on or off. 
       )
-(defonce ^:dynamic *-o-debug-print* false)
+(def ^:dynamic *-o-debug-print* false)
 
 #_ (* Debug control function for extensomatic. 
       @arg tf True turns debug output on, false turns it off.)
-(defn extenso-debug [tf] (def *-o-debug-print* tf) tf)
+(defn extenso-debug [tf] (def ^:dynamic *-o-debug-print* tf) tf)
 
 (defn -pln [& stuff]  (if *-o-debug-print* (apply println stuff)) )
 (defn -ppp [caption form] (if *-o-debug-print* (do (println caption) (println form))))
@@ -604,9 +604,17 @@
         composed-vars (check-extensos 'defconstructo composed-extensos)]
     (check-fields 'defconstructo local-fields)
   
-    (let [local-methods 
+    (let [pre-local-methods 
           (take-while (fn [item] (not (symbol? item))) protos-methods)
-          #_ (-ppp "defconstructo local-methods: " local-methods)
+          
+          local-methods #_ pre-local-methods
+          (if (empty? pre-local-methods) 
+            [(list (symbol (str bogus-leader 
+                               record-name "_"
+                               (.replaceAll (str (ns-name *ns*)) "\\." "_")))
+                  '[this])]
+            pre-local-methods)
+          _ (-ppp "defconstructo local-methods: " local-methods)
         
           constructo-proto-name (constructo-protocol-name record-name)
           #_ (-pln "defconstructo constructo-proto-name:" constructo-proto-name)

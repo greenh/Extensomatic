@@ -1,4 +1,4 @@
-(ns extensomatic.text.constructo-test
+(ns test.extensomatic.constructo-test
   (:use
     [extensomatic.extensomatic]
     )
@@ -30,6 +30,8 @@
 
 (defextenso Dated [] []
   (date [this] (.format (java.text.SimpleDateFormat.) (java.util.Date.))))
+
+(defconstructo UPoo [] [x y z])
 
 (defconstructo PooPoo [Extxx1 Dated] [poo] 
   (poo-of [this] poo)

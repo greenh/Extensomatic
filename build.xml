@@ -4,7 +4,7 @@
 	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
 	<property name="pom" value="pom.xml"/>
 	
-	<property name="version" value="0.1.0" />
+	<property name="version" value="0.1.2-SNAPSHOT" />
 
 	<property name="src.dir" value="src" />
 	<property name="classes.dir" value="classes" />
