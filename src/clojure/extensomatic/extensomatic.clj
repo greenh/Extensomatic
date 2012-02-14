@@ -111,19 +111,6 @@
   (throw (ParseException. (apply str msg (if-not (empty? why-bits) 
                                          (enquote (maxstr 80 why-bits)))))))
 
-#_ (* Specifies the prefix used for creating constructor functions for constructos.
-      @p By default, the prefix is "make-", and thus the constructor function for 
-      a constructo named @(c MyConstructo) would be @(c make-MyConstructo).
-      )
-(def ^:dynamic *new-prefix* "make-")
-
-#_ (* Specifies the functor used by @(l defconstructo) for class definition.
-      @p By default, this is @(l defrecord), but it can be set to @(l deftype),
-      or (at least in principle!) any other defining form that has the same
-      syntax.
-      )
-(def ^:dynamic *constructo-functor* 'defrecord)
-
 (defn var-sym [var]
   (let [{ sym-ns :ns sym-name :name} (meta var)]
     (symbol (name (ns-name sym-ns)) (name sym-name))))
@@ -588,11 +575,24 @@
       where\:
       @arg field-name The name of the field
       @arg init-value The value to which the field is to be initialized.)
-      @arg protos-methods A (possibly empty) list of local method 
-      implementations, followed by protocol-name / method implementation 
-      sequences in the same format as @(link defrecord).
+      @(arg opts-protos-methods A (possibly empty) map of options, followed by
+            a (possibly empty) list of local method implementations, followed by 
+            protocol-name / method implementation 
+            sequences in the same format as @(link defrecord).
+            @(p If the first form in @(arg opts-protos-methods) is a map, @name
+                interprets it as a map of options. Options can include any of 
+                the following\:
+                @option :def-sym defrecord A symbol specifying the functor to use for defining
+                the constructo. By default, this is @(l defrecord), but @(l deftype)
+                can meaningfully be used as well. @(b Do not quote the symbol!)
+                @option :new-prefix "make-" A string that's prefixed to @(arg record-name) 
+                to produce the name of a constructor function.
+                @key :new-sym A symbol specifying an explicit name for the 
+                constructor function. If this is not present, the constructor name is 
+                symthesized as described for @(opt :new-prefix). @(b Do not quote the symbol!))
+            )
       )
-(defmacro defconstructo [record-name &composed-extensos &local-fields & protos-methods]
+(defmacro defconstructo [record-name &composed-extensos &local-fields & opts-protos-methods]
   (if-not (symbol? record-name) 
     (error "defconstructo: Record name must be a symbol: " record-name))
   (if-not (vector? &composed-extensos)
@@ -604,7 +604,14 @@
         composed-vars (check-extensos 'defconstructo composed-extensos)]
     (check-fields 'defconstructo local-fields)
   
-    (let [pre-local-methods 
+    (let [[opts? & post-opts] opts-protos-methods
+          opts (if (map? opts?) opts? nil)
+          protos-methods (if (map? opts?) post-opts opts-protos-methods)
+          { :keys [def-sym new-prefix new-sym] 
+            :or {def-sym 'defrecord new-prefix "make-"} } opts 
+          _ (-ppp (str "; opts:") (pr-str def-sym new-prefix new-sym))
+        
+          pre-local-methods 
           (take-while (fn [item] (not (symbol? item))) protos-methods)
           
           local-methods #_ pre-local-methods
@@ -634,11 +641,11 @@
         
         
         [init-fields uninit-fields] (extenso-field-munger 'defconstructo composed-extensos local-fields)
-          
+        
         record-def 
-        `(~*constructo-functor* ~record-name 
+        `(~(symbol (str def-sym)) ~record-name 
            ~(vec (concat (map first init-fields) uninit-fields))
-           ~@(if (empty? local-methods) [] [constructo-proto-name])
+           ~@(if (empty? pre-local-methods) [] [constructo-proto-name])
            ~@protos-methods
            ~@(mapcat (fn [extenso-form] 
                        (extenso-methods (if (symbol? extenso-form) 
@@ -649,7 +656,7 @@
         _ (-ppp (str "; " record-name " record-def:") record-def)
         
         new-def 
-        (list 'defn (symbol (str *new-prefix* record-name)) 
+        (list 'defn (symbol (if new-sym (str new-sym) (str new-prefix record-name))) 
               (str "Returns a new " record-name " object.")
               (vec (map (fn [x] (if (symbol? x) x (first x))) uninit-fields)) 
               (concat (list 'new record-name) (map second init-fields) uninit-fields))

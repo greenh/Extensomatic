@@ -62,3 +62,15 @@
 
 (defconstructo Doodle [Extxx1 Flexibot] [(yorick (ref 0))]
   (alas [this] (str @yorick " " @nada)))
+
+(defconstructo Dwibble [Extxx1 Flexibot] [(yorick (ref 0))]
+  { :def-sym deftype :new-prefix new- } 
+  (pre-alas [this] (str @yorick " " @nada)))
+
+(defconstructo Dwadle [Extxx1 Flexibot] [(yorick (ref 0))]
+  { :def-sym deftype :new-sym kerzap } 
+  (post-alas [this] (str @yorick " " @nada)))
+
+
+
+

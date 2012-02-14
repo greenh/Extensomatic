@@ -3,9 +3,11 @@
 	
 	<property name="lein" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\lein\lein.bat"/>
 	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
+	<property name="scp" value="C:\Program Files\Git\bin\scp.exe" />
+	
 	<property name="pom" value="pom.xml"/>
 	
-	<property name="version" value="0.1.2-SNAPSHOT" />
+	<property name="version" value="0.1.3" />
 
 	<property name="src.dir" value="src" />
 	<property name="classes.dir" value="classes" />
@@ -33,7 +35,16 @@
 		</exec>
 	
 	</target>
-	
+
+	<target name="push"  depends="extensomatic-jar,pom">
+		<exec executable="${scp}">
+			<arg value="${pom}"/>
+			<arg value="${dest.dir}/${extensomatic.jar}"/>
+			<arg value="${clojars}"/>
+		</exec>
+	</target>
+
+
 </project>
 
 			
