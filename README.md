@@ -8,7 +8,7 @@ so the structures it creates are fully interoperable with all aspects of Clojure
 
 As mild warning, be aware that Extensomatic strives to be entirely non-pretentious:
 it makes no claimes to such properties as generality, extensibility, universality, robustness, 
-flexibility, upgradeability, etc., etc., that are often advertised for data 
+flexibility, upgradeability, etc., that are often advertised for data 
 structuring systems. It's a purely bottom-up, convenience-driven design that just seems 
 to work pretty well for most simple needs of simple programs.  
 
@@ -36,18 +36,22 @@ function and thus can be instantiated as needed.
 
 The net effect, then, is one of extensos acting as building blocks, while constructos 
 are composed from these blocks, plus whatever additional functionality is needed to make
-it all hang together. 
+it all hang together. The composition process is entirely textual: `defconstructo` 
+effectively just concatenates the content of all included extensos plus whatever content is
+defined in the constructo per se, and then hands the resulting composite off to the
+tender mercies of Clojure. 
 
 The perceived convenience of Extensomatic, as compared to standard Clojure records
 and protocols, is most apparent when defining simple records with a few methods and fields.
 In Clojure, one has to define a protocol, _and_ a record, _and_ often at least one function to
-handle field intitialization. While these multiple parts and pieces are obviously
+handle field intitialization. While these multiple parts and pieces are obviously a
 fully general mechanism, they can also be a tiresome nuisance to write and maintain. 
 Extensomatic gets around this by incorporating the whole works into a single 
-specification. It's hardly perfect, but experience indicates that it does tend to be
-convenient for many applications.  
+specification. It's hardly perfect, but experience indicates that it's not only 
+convenient for many applications, but that it's a nice base for building further classes of  
+of structures as well.
 
-Here's a quick summarization of what extensos' and constructos' capabilities.
+## A quick summary
 
 An extenso:
 * defines a fragment of a record.
@@ -74,9 +78,9 @@ A constructo:
 
 ## Documentation 
 
-See the [Extensomatic user guide](http://greenh.github.com/Extensomatic/Extensomatic.html). 
+[Extensomatic user guide](http://greenh.github.com/Extensomatic/Extensomatic.html) (TBD). 
 
-Extensomatic interface documentation
+[Extensomatic API](http://greenh.github.com/Extensomatic/doc/dark/extensomatic.extensomatic.html) 
 
 ## Getting Extensomatic
 
