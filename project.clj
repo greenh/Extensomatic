@@ -18,29 +18,41 @@
       and @(lt "extensomatic.extensomatic.html#defconstructo" defconstructo) 
       macros, and result in protocols and records that
       are in all respects fully compatible with those defined with 
-      @(link defprotocol) and @(link defrecord).
-      
+      @(lt "extensomatic.extensomatic.html#defconstructo" defconstructo)
+      @(lt "http://clojure.github.com/clojure/clojure.core-api.html#clojure.core/defprotocol"
+           defprotocol) 
+      and @(lt "http://clojure.github.com/clojure/clojure.core-api.html#clojure.core/defrecord" 
+               defrecord).
       @p Extensomatic is an open-source project. Source materials and documentation are
       located at its @(linkto "https://github.com/greenh/extensomatic" home). 
       )
-(require 'extensomatic.extensomatic)
 
-(defproject extensomatic "0.1.3"
+(defproject extensomatic "0.2.0"
   :description "Extensomatic"
   :url "https://github.com/greenh/Extensomatic"
-  :target-dir "bin"
+  :target-path "bin/"
+  :source-paths ["src/clojure"]
+  :java-source-paths ["src/java"] 
+  :test-paths ["test"]
+  :compile-path "classes"
   :dependencies [
-    [clojure "1.2.1"]
+    [org.clojure/clojure "1.4.0"]
     ]
-  :exclusions [org.clojure/clojure cjd/cjd org.cjd-doc/cjd lein-clojars]
+  :plugins [
+    [no-man-is-an-island/lein-eclipse "2.0.0"]
+    [cjd "0.1.0-SNAPSHOT"]
+    [lein-clojars "0.9.1"]
+    ]
   :dev-dependencies [
-    [cjd "0.0.4-SNAPSHOT"]
-    [lein-clojars "0.7.0"]
+    [cjd "0.1.0-SNAPSHOT"]
     ]
   
-  :cjd-source-path "src"
-  :cjd-dest-path "doc/light"
-  :cjd-opts { :theme :light :title "Extensomatic" :v [:f :n] :overview "project.clj" }
+  :cjd-source "src/clojure"
+  :cjd-dest "doc/dark"
+  :cjd-opts { :theme :dark 
+             :title "Extensomatic" :v #{:f :n} :overview "project.clj"
+             :requires "extensomatic-cjd.extensomatic-cjd" }
   )
+
 
  

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>Extensomatic</name>
-  <comment>FIXME: write description</comment>
+  <name>extensomatic</name>
+  <comment>Extensomatic</comment>
   <projects/>
   <buildSpec>
     <buildCommand>

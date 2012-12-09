@@ -5,7 +5,7 @@
      which can be found in the file epl-v10.html at the root of this distribution.
      By using this software in any fashion, you are agreeing to be bound by
      the terms of this license.
-     
+      
      You must not remove this notice, or any other, from this software.
      )
 
@@ -18,7 +18,11 @@
       are in all respects fully compatible with those defined with 
       @(link clojure.core/defprotocol) and @(link clojure.core/defrecord).
       
-      @(p An extenso is a fragment of a record. An extenso definition can 
+      @(p An extenso is a fragment of a record, a building block that can be
+          incorporated into other extensos (giving rise to a hierarchy of sorts) 
+          or into constructos. A constructo is a complete, instantiable object class.)
+      
+      @(p Slightly more formally, definitions of both extensos and constructos can 
           specify several kinds of content\:
           @(ul
              @li A set of field names, representing data elements that are 
@@ -32,38 +36,44 @@
                           or overrides of @(link java.lang.Object)\; these abide
                           by the same rules as method implementations within
                           @(link defrecord).)))  
-             @li Other extensos, to be incorporated or "composed" into the extenso 
-             being defined. These may include initialization values for fields
-             of the composed extensos that are not initialized.)
+             @li Previously defined extensos, to be incorporated or "composed" into the 
+             extenso or constructo being defined. These may include initialization values 
+             for fields of the composed extensos that are not initialized.)
           )
-      @p From an implementation perspective, each extenso gives rise to a standard
-      Clojure protocol that includes method signatures for each of the extenso's 
-      local methods. And much like a protocol, an extenso doesn't actually give
-      rise to any sort of instantiable object, but merely serves as a place
-      to record information about the extenso—which happens to include essentially
-      the entire content of the extenso.
       
-      @p The fact that previously defined extensos can be composed into new extensos
-      gives rise to a hierarchy of sorts. An extenso accretes all of the fields,
+     @(p Defining an extenso using @(il defextenso) gives rise to a Clojure protocol 
+         named for the extenso. All 
+         constructos that incorporate that extenso (directly or indirectly) are marked 
+         as implementing that interface.)
+     
+     @(p Defining a constructo using @(il defconstructo) results in\: 
+         @(ul
+            @(li a Clojure record that\:
+                 @(ul 
+                    @li contains all of the fields of the transitive closure of 
+                    incorporated extensos, as well as all locally specified fields.
+                    @li incorporates all interfaces and protocols defined in or by the
+                    transitive closure of incorporated extensos, as well as any
+                    interfaces or protocols defined locally.
+                    @li contains all method implementations from the transitive closure of 
+                    incorporated extensos, plus all locally specified methods. 
+                    )
+                 )
+            @li a synthesized Clojure protocol representing the locally defined methods
+            of the constructo.
+            @li a constructor function that instantiates a record and implicitly initializes 
+            all fields declared with initializers to their specified values.
+            )
+         ) 
+     
+      @p The fact that any previously defined extenso can be composed into new extensos and 
+      and constructos gives rise to a hierarchy of sorts. Each contructo / extenso that 
+      incorporates an existing extenso accretes all of the fields,
       field initializations, local method implementations, and protocol and / or 
-      interface-based method implementations of its composed extensos\: it is, quite
-      literally, a copy-and-paste composition process.
-      
-      @p  
-      A constructo is, for all intents and purposes, a Clojure record (or type)
-      defined by alternate means. 
-      
-      
-      Like an extenso, a constructo's definition can contain fields, field 
-      initializations, locally-defined or protocol / interface / Object-derived method 
-      implementations, and composed extensos.
-      
-      
-      
-      
-      
+      interface-based method implementations of its composed extensos. This is done, as a 
+      copy-and-paste composition process.     
       )
-
+ 
 (ns extensomatic.extensomatic
   (:import
     [extensomatic ParseException]

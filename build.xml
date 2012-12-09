@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Extensomatic" basedir="." default="install">
+
+    <property environment="env" />
 	
-	<property name="lein" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\lein\lein.bat"/>
-	<property name="maven" value="C:\Documents and Settings\Howard Green\Desktop\Libraries\apache-maven-2.2.1\bin\mvn.bat" />
-	<property name="scp" value="C:\Program Files\Git\bin\scp.exe" />
-	
+	<property name="lein" value="${env.LEIN_BASE}\lein1.bat"/>
+	<property name="maven" value="${env.M2_HOME}\bin\mvn.bat" />
+	<property name="scp" value="${env.GIT_HOME}\bin\scp.exe" />
+    <property name="sed" value="sed" />
+  	
 	<property name="pom" value="pom.xml"/>
 	
-	<property name="version" value="0.1.3" />
+	<property name="version" value="0.2.0" />
 
 	<property name="src.dir" value="src" />
 	<property name="classes.dir" value="classes" />
@@ -24,7 +27,12 @@
 	<target name="pom" >
 		<exec executable="${lein}">
 			<arg value="pom"/>
+            <arg value="pom0.xml"/>
 		</exec>
+        <exec executable="${sed}" input="pom0.xml" output="pom.xml">
+            <arg value="-e"/>
+            <arg value="s/>C:.*\\\\Extensomatic\\\\/>/"/>
+        </exec>
 	</target>
 
 	<target name="install" depends="extensomatic-jar,pom">
@@ -33,7 +41,8 @@
 			<arg value="-Dfile=${dest.dir}/${extensomatic.jar}"/>
 			<arg value="-DpomFile=${pom}"/>
 		</exec>
-	
+		<exec>
+		</exec>
 	</target>
 
 	<target name="push"  depends="extensomatic-jar,pom">

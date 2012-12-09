@@ -1,4 +1,4 @@
-(ns extensomatic.test.extenso-test
+(ns test.extensomatic.extenso-test
   (:use
     [extensomatic.extensomatic]
     )

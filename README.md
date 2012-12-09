@@ -6,13 +6,11 @@ and concise than Clojure's native`defprotocol` and `defrecord` macros. Extensoma
 structures always compile in well-defined ways into Clojure protocols and records, however,
 so the structures it creates are fully interoperable with all aspects of Clojure.
 
-As mild warning, be aware that Extensomatic strives to be entirely non-pretentious:
+As preliminary, be aware that Extensomatic strives to be entirely non-pretentious:
 it makes no claimes to such properties as generality, extensibility, universality, robustness, 
 flexibility, upgradeability, etc., that are often advertised for data 
 structuring systems. It's a purely bottom-up, convenience-driven design that just seems 
 to work pretty well for most simple needs of simple programs.  
-
-## A little more detail
 
 Extensomatic structures are specified in terms of two artifacts, _extensos_ and _constructos_,
 which are defined using the 
@@ -35,8 +33,8 @@ to further extension. Because a constructo is a complete class, it has a constru
 function and thus can be instantiated as needed. 
 
 The net effect, then, is one of extensos acting as building blocks, while constructos 
-are composed from these blocks, plus whatever additional functionality is needed to make
-it all hang together. The composition process is entirely textual: `defconstructo` 
+are composed from these blocks plus whatever additional functionality is needed to make
+them hang together. The composition process is entirely textual: `defconstructo` 
 effectively just concatenates the content of all included extensos plus whatever content is
 defined in the constructo per se, and then hands the resulting composite off to the
 tender mercies of Clojure. 
@@ -48,7 +46,7 @@ handle field intitialization. While these multiple parts and pieces are obviousl
 fully general mechanism, they can also be a tiresome nuisance to write and maintain. 
 Extensomatic gets around this by incorporating the whole works into a single 
 specification. It's hardly perfect, but experience indicates that it's not only 
-convenient for many applications, but that it's a nice base for building further classes of  
+convenient for many applications, but that it's a nice base for building further classes 
 of structures as well.
 
 ## A quick summary
